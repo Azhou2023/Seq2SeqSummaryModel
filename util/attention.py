@@ -3,6 +3,7 @@ from tensorflow.python.keras import backend as K
 
 logger = tf.get_logger()
 
+@tf.keras.utils.register_keras_serializable()
 class AttentionLayer(tf.keras.layers.Layer):
     """
     This class implements Bahdanau attention (https://arxiv.org/pdf/1409.0473.pdf).
@@ -11,6 +12,10 @@ class AttentionLayer(tf.keras.layers.Layer):
 
     def __init__(self, **kwargs):
         super(AttentionLayer, self).__init__(**kwargs)
+
+    def get_config(self):
+        config = super().get_config()
+        return config
 
     def build(self, input_shape):
         assert isinstance(input_shape, list)
@@ -120,3 +125,4 @@ class AttentionLayer(tf.keras.layers.Layer):
             tf.TensorShape((input_shape[1][0], input_shape[1][1], input_shape[1][2])),
             tf.TensorShape((input_shape[1][0], input_shape[1][1], input_shape[0][1]))
         ]
+
